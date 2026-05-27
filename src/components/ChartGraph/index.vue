@@ -163,7 +163,7 @@ const buildOption = (): echarts.EChartsOption => {
         ...(forceConfig.force ? { force: forceConfig.force } : {}),
         data: seriesNodes,
         links: seriesLinks,
-        categories: categories.map((cat, index) => ({
+        categories: categories.map((cat) => ({
           name: cat.name,
           itemStyle: cat.itemStyle || {},
         })),
@@ -298,4 +298,3 @@ onBeforeUnmount(() => {
   @apply w-full h-full;
 }
 </style>
-

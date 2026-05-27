@@ -109,6 +109,7 @@ const currentLevel = ref<"city" | "district">("city"); // 当前地图层级：c
 const currentDistrictName = ref<string>(""); // 当前选中的区县名称
 const currentDistrictGeoJson = ref<any>(null); // 当前区县的GeoJSON数据
 const districtAdcodeMap = ref<Map<string, string>>(new Map()); // 区县名称到adcode的映射
+const debugLog = (..._args: unknown[]) => {};
 
 // 计算图表实际宽度
 const computedWidth = computed(() => {
@@ -163,7 +164,7 @@ const extractDistrictAdcodes = (geoJson: any) => {
     return;
   }
   
-  console.log("Extracting district adcodes from geoJson, features count:", geoJson.features.length);
+  debugLog("Extracting district adcodes from geoJson, features count:", geoJson.features.length);
   let extractedCount = 0;
   
   geoJson.features.forEach((feature: any) => {
@@ -177,8 +178,8 @@ const extractDistrictAdcodes = (geoJson: any) => {
     }
   });
   
-  console.log("Extracted", extractedCount, "district adcodes");
-  console.log("Sample districts:", Array.from(districtAdcodeMap.value.entries()).slice(0, 5));
+  debugLog("Extracted", extractedCount, "district adcodes");
+  debugLog("Sample districts:", Array.from(districtAdcodeMap.value.entries()).slice(0, 5));
 };
 
 // 加载区县GeoJSON数据（尝试获取镇街边界）
@@ -193,14 +194,14 @@ const loadDistrictGeoJson = async (adcode: string): Promise<any> => {
     if (response.ok) {
       const geoData = await response.json();
       const featureCount = geoData.features?.length || 0;
-      console.log(`成功加载区县地图数据: ${adcode}，包含 ${featureCount} 个区域`);
+      debugLog(`成功加载区县地图数据: ${adcode}，包含 ${featureCount} 个区域`);
       
       // 如果只包含1个区域，说明没有镇街数据
       if (featureCount === 1) {
         console.warn(`区县 ${adcode} 的数据不包含镇街边界，仅显示区县边界`);
         console.warn(`提示：如需显示镇街边界，请使用本地GeoJSON文件或第三方数据源`);
       } else if (featureCount > 1) {
-        console.log(`区县 ${adcode} 包含镇街边界数据（${featureCount} 个区域）`);
+        debugLog(`区县 ${adcode} 包含镇街边界数据（${featureCount} 个区域）`);
       }
       
       return geoData;
@@ -215,23 +216,23 @@ const loadDistrictGeoJson = async (adcode: string): Promise<any> => {
 
 // 处理区县下钻
 const handleDistrictDrillDown = async (districtName: string) => {
-  console.log("handleDistrictDrillDown called with:", districtName);
-  console.log("currentLevel:", currentLevel.value);
-  console.log("districtAdcodeMap size:", districtAdcodeMap.value.size);
+  debugLog("handleDistrictDrillDown called with:", districtName);
+  debugLog("currentLevel:", currentLevel.value);
+  debugLog("districtAdcodeMap size:", districtAdcodeMap.value.size);
   
   // 如果已经在区县层级，不处理
   if (currentLevel.value === "district") {
-    console.log("Already in district level, skipping");
+    debugLog("Already in district level, skipping");
     return;
   }
 
   // 获取区县的adcode
   const adcode = districtAdcodeMap.value.get(districtName);
-  console.log("Looking for adcode for:", districtName, "found:", adcode);
+  debugLog("Looking for adcode for:", districtName, "found:", adcode);
   
   if (!adcode) {
     console.warn(`未找到区县 ${districtName} 的adcode`);
-    console.log("Available districts:", Array.from(districtAdcodeMap.value.keys()));
+    debugLog("Available districts:", Array.from(districtAdcodeMap.value.keys()));
     return;
   }
 
@@ -241,13 +242,13 @@ const handleDistrictDrillDown = async (districtName: string) => {
   // 方式1：优先使用自定义的区县GeoJSON数据映射
   if (props.districtGeoJsonMap && props.districtGeoJsonMap[districtName]) {
     districtGeoJson = props.districtGeoJsonMap[districtName];
-    console.log(`使用自定义GeoJSON数据: ${districtName}`);
+    debugLog(`使用自定义GeoJSON数据: ${districtName}`);
   }
   // 方式2：使用自定义加载函数
   else if (props.loadDistrictGeoJsonFn) {
     try {
       districtGeoJson = await props.loadDistrictGeoJsonFn(districtName, adcode);
-      console.log(`使用自定义加载函数获取数据: ${districtName}`);
+      debugLog(`使用自定义加载函数获取数据: ${districtName}`);
     } catch (error) {
       console.error(`自定义加载函数失败: ${districtName}`, error);
     }
@@ -330,7 +331,7 @@ const loadDefaultGeoJson = async (): Promise<any> => {
       }
     } catch (localError) {
       // 本地文件不存在，继续尝试从API加载
-      console.log("本地GeoJSON文件不存在，尝试从阿里云API加载...");
+      debugLog("本地GeoJSON文件不存在，尝试从阿里云API加载...");
     }
 
     // 方式2：从阿里云DataV API加载
@@ -385,7 +386,7 @@ const loadMainCityGeoJson = async (): Promise<any> => {
       }
     } catch (localError) {
       // 本地文件不存在，继续尝试从API加载或从主地图筛选
-      console.log("本地主城区GeoJSON文件不存在，尝试从阿里云API加载...");
+      debugLog("本地主城区GeoJSON文件不存在，尝试从阿里云API加载...");
     }
 
     // 方式2：从阿里云DataV API加载主城区数据
@@ -982,25 +983,25 @@ const initChart = async () => {
     
     // 绑定点击事件
     chartInstance.on("click", (params: any) => {
-      console.log("Map clicked:", params);
-      console.log("enableDrillDown:", props.enableDrillDown);
-      console.log("currentLevel:", currentLevel.value);
+      debugLog("Map clicked:", params);
+      debugLog("enableDrillDown:", props.enableDrillDown);
+      debugLog("currentLevel:", currentLevel.value);
       
       if (params.componentType === "series" && params.seriesType === "map") {
         const areaName = processAreaName(params.name || "");
-        console.log("Area name:", areaName);
+        debugLog("Area name:", areaName);
         
         // 如果启用了下钻功能，且是市级层级，点击区县时下钻
         if (props.enableDrillDown && currentLevel.value === "city" && areaName) {
           // 排除主城区副本（_main后缀），但允许主城区本身下钻
           if (!areaName.endsWith("_main")) {
-            console.log("Calling handleDistrictDrillDown for:", areaName);
+            debugLog("Calling handleDistrictDrillDown for:", areaName);
             handleDistrictDrillDown(areaName);
           } else {
-            console.log("Skipping _main area");
+            debugLog("Skipping _main area");
           }
         } else {
-          console.log("Conditions not met for drill down:", {
+          debugLog("Conditions not met for drill down:", {
             enableDrillDown: props.enableDrillDown,
             currentLevel: currentLevel.value,
             areaName: areaName

@@ -219,7 +219,7 @@ const buildOption = (): echarts.EChartsOption => {
       axisName: props.showIndicatorName
         ? {
             show: true,
-            formatter: (name: string) => name,
+            formatter: (name?: string) => name || "",
             color: props.indicatorNameStyle?.color || "#666",
             fontSize: props.indicatorNameStyle?.fontSize || 14,
             fontWeight: props.indicatorNameStyle?.fontWeight || "normal",
@@ -347,4 +347,3 @@ onBeforeUnmount(() => {
   @apply w-full h-full;
 }
 </style>
-

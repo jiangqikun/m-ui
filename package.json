@@ -8,24 +8,118 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/m-ui.js",
-      "require": "./dist/m-ui.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/m-ui.umd.cjs"
     },
-    "./style.css": "./dist/style.css"
+    "./button": {
+      "types": "./dist/components/Button/index.vue.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./input": {
+      "types": "./dist/components/Input/index.vue.d.ts",
+      "import": "./dist/input.js"
+    },
+    "./chart-bar": {
+      "types": "./dist/components/ChartBar/index.vue.d.ts",
+      "import": "./dist/chart-bar.js"
+    },
+    "./chart-bar-3d": {
+      "types": "./dist/components/ChartBar3D/index.vue.d.ts",
+      "import": "./dist/chart-bar-3d.js"
+    },
+    "./chart-pie": {
+      "types": "./dist/components/ChartPie/index.vue.d.ts",
+      "import": "./dist/chart-pie.js"
+    },
+    "./chart-pie-3d": {
+      "types": "./dist/components/ChartPie3D/index.vue.d.ts",
+      "import": "./dist/chart-pie-3d.js"
+    },
+    "./chart-line": {
+      "types": "./dist/components/ChartLine/index.vue.d.ts",
+      "import": "./dist/chart-line.js"
+    },
+    "./chart-map-cq": {
+      "types": "./dist/components/ChartMapCq/index.vue.d.ts",
+      "import": "./dist/chart-map-cq.js"
+    },
+    "./chart-map-cq-3d": {
+      "types": "./dist/components/ChartMapCq3D/index.vue.d.ts",
+      "import": "./dist/chart-map-cq-3d.js"
+    },
+    "./chart-word-cloud": {
+      "types": "./dist/components/ChartWordCloud/index.vue.d.ts",
+      "import": "./dist/chart-word-cloud.js"
+    },
+    "./chart-graph": {
+      "types": "./dist/components/ChartGraph/index.vue.d.ts",
+      "import": "./dist/chart-graph.js"
+    },
+    "./chart-radar": {
+      "types": "./dist/components/ChartRadar/index.vue.d.ts",
+      "import": "./dist/chart-radar.js"
+    },
+    "./chart-tree": {
+      "types": "./dist/components/ChartTree/index.vue.d.ts",
+      "import": "./dist/chart-tree.js"
+    },
+    "./chart-sunburst": {
+      "types": "./dist/components/ChartSunburst/index.vue.d.ts",
+      "import": "./dist/chart-sunburst.js"
+    },
+    "./chart-kline": {
+      "types": "./dist/components/ChartKLine/index.vue.d.ts",
+      "import": "./dist/chart-kline.js"
+    },
+    "./chart-pictorial-bar": {
+      "types": "./dist/components/ChartPictorialBar/index.vue.d.ts",
+      "import": "./dist/chart-pictorial-bar.js"
+    },
+    "./chart-funnel": {
+      "types": "./dist/components/ChartFunnel/index.vue.d.ts",
+      "import": "./dist/chart-funnel.js"
+    },
+    "./chart-gauge": {
+      "types": "./dist/components/ChartGauge/index.vue.d.ts",
+      "import": "./dist/chart-gauge.js"
+    },
+    "./responsive-page": {
+      "types": "./dist/components/ResponsivePage/index.vue.d.ts",
+      "import": "./dist/responsive-page.js"
+    },
+    "./scroll-box": {
+      "types": "./dist/components/ScrollBox/index.vue.d.ts",
+      "import": "./dist/scroll-box.js"
+    },
+    "./ellipsis-text": {
+      "types": "./dist/components/EllipsisText/index.vue.d.ts",
+      "import": "./dist/ellipsis-text.js"
+    },
+    "./gradation-text": {
+      "types": "./dist/components/GradationText/index.vue.d.ts",
+      "import": "./dist/gradation-text.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./component-style.css": "./dist/component-style.css"
   },
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && npm run build:types",
+    "build": "vue-tsc --noEmit && vite build && vite build --config vite.components.config.ts && npm run build:types",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly -p tsconfig.build.json --outDir dist",
     "build:docs": "vitepress build docs",
+    "verify:exports": "node scripts/verify-exports.mjs",
     "dev:docs": "vitepress dev docs",
     "preview:docs": "vitepress preview docs",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run build && npm run verify:exports",
     "publish": "npm run build && npm publish --access public"
   },
   "keywords": [
@@ -45,13 +139,23 @@
     "url": "https://github.com/jqkgg/m-ui/issues"
   },
   "peerDependencies": {
+    "@vueuse/core": "^10.0.0",
     "echarts": "^5.0.0",
+    "echarts-gl": "^2.0.0",
+    "echarts-wordcloud": "^2.0.0",
     "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "echarts-gl": {
+      "optional": true
+    },
+    "echarts-wordcloud": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/node": "^25.0.9",
     "@vitejs/plugin-vue": "^5.0.0",
-    "@vueuse/core": "^10.7.0",
     "autoprefixer": "^10.4.17",
     "echarts": "^5.6.0",
     "echarts-gl": "^2.0.9",
@@ -69,6 +173,7 @@
     "vue-tsc": "^3.2.2"
   },
   "dependencies": {
+    "@vueuse/core": "^10.7.0",
     "lodash": "^4.17.23"
   }
 }

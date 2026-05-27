@@ -1,6 +1,6 @@
 # M-UI
 
-一个基于 Vue3 的组件库，类似 Element UI。
+一个基于 Vue3 的组件库，重点提供数据可视化组件和少量基础 UI 组件。
 
 ## 特性
 
@@ -33,11 +33,18 @@ app.use(MUI)
 app.mount('#app')
 ```
 
-### 按需引入
+### 从主入口按需引入
 
 ```javascript
 import { MButton, MInput, MChartBar } from '@jqkgg/m-ui'
 import '@jqkgg/m-ui/style.css'
+```
+
+### 按组件子路径引入
+
+```javascript
+import MChartBar from '@jqkgg/m-ui/chart-bar'
+import '@jqkgg/m-ui/component-style.css'
 ```
 
 ### 依赖安装
@@ -48,8 +55,14 @@ import '@jqkgg/m-ui/style.css'
 # Vue 3（必需）
 npm install vue@^3.0.0
 
-# ECharts（ChartBar 组件需要）
+# ECharts（图表组件需要）
 npm install echarts@^5.0.0
+
+# 3D 图表组件需要
+npm install echarts-gl@^2.0.0
+
+# 词云组件需要
+npm install echarts-wordcloud@^2.0.0
 ```
 
 ## 使用示例
@@ -129,11 +142,10 @@ npm run build:docs
 
 ## 组件
 
-- Button 按钮
-- Input 输入框
-- ChartBar 柱状图
-
-更多组件正在开发中...
+- 基础组件：Button、Input
+- 容器组件：ResponsivePage、ScrollBox
+- 文本组件：EllipsisText、GradationText
+- 图表组件：ChartBar、ChartBar3D、ChartPie、ChartPie3D、ChartLine、ChartMapCq、ChartMapCq3D、ChartWordCloud、ChartGraph、ChartRadar、ChartTree、ChartSunburst、ChartKLine、ChartPictorialBar、ChartFunnel、ChartGauge
 
 ## 浏览器支持
 

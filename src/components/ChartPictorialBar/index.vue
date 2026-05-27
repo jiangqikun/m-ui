@@ -129,7 +129,7 @@ const buildOption = (): echarts.EChartsOption => {
       const finalSymbol = item.symbol || `path://${symbolPath}`;
       
       // 转换数据格式
-      const data = item.data.map((value: number) => {
+      const data: NonNullable<PictorialBarSeriesOption["data"]> = item.data.map((value: number) => {
         return {
           value: value,
           itemStyle: {
@@ -138,7 +138,7 @@ const buildOption = (): echarts.EChartsOption => {
           label: props.showLabel
             ? {
                 show: true,
-                position: 'top',
+                position: 'top' as const,
                 formatter: (params: any) => {
                   return `${params.value}%`;
                 },
@@ -384,4 +384,3 @@ onBeforeUnmount(() => {
   @apply w-full h-full;
 }
 </style>
-

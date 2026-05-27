@@ -84,7 +84,7 @@ export interface ChartPictorialBarProps {
   /** 柱子间距 */
   barGap?: number
   /** 同一类别柱子间距 */
-  barCategoryGap?: number
+  barCategoryGap?: number | string
   /** 是否启用动画 */
   animation?: boolean
   /** 动画持续时间（毫秒） */
@@ -92,4 +92,3 @@ export interface ChartPictorialBarProps {
   /** 完全自定义的 ECharts 配置项，传入后将以 options 为准，忽略其他属性。参考：https://echarts.apache.org/zh/option.html#series-pictorialBar.type */
   options?: any
 }
-

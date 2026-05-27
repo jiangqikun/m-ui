@@ -114,7 +114,7 @@ const buildOption = (): echarts.EChartsOption => {
   const kLineData = data.map((item: ChartKLineDataItem) => item.value);
 
   // 转换成交量数据格式
-  const volumeData = data.map((item: ChartKLineDataItem, index: number) => {
+  const volumeData = data.map((item: ChartKLineDataItem) => {
     const [open, close] = item.value;
     const isUp = close >= open;
     return {
@@ -239,12 +239,11 @@ const buildOption = (): echarts.EChartsOption => {
             bottom: props.grid?.bottom || "15%",
           },
         ],
-    xAxis: props.showVolume
+    xAxis: (props.showVolume
       ? [
           {
             type: "category",
             data: categories,
-            scale: true,
             boundaryGap: false,
             axisLine: { onZero: false },
             splitLine: { show: false },
@@ -261,7 +260,6 @@ const buildOption = (): echarts.EChartsOption => {
             type: "category",
             gridIndex: 1,
             data: categories,
-            scale: true,
             boundaryGap: false,
             axisLine: { onZero: false },
             axisTick: { show: false },
@@ -276,7 +274,6 @@ const buildOption = (): echarts.EChartsOption => {
           {
             type: "category",
             data: categories,
-            scale: true,
             boundaryGap: false,
             axisLine: { onZero: false },
             splitLine: { show: false },
@@ -289,7 +286,7 @@ const buildOption = (): echarts.EChartsOption => {
               interval: "auto",
             },
           },
-        ],
+        ]) as echarts.EChartsOption["xAxis"],
     yAxis: props.showVolume
       ? [
           {
@@ -359,7 +356,7 @@ const buildOption = (): echarts.EChartsOption => {
                   show: false,
                 },
           },
-        ],
+        ] as echarts.EChartsOption["yAxis"],
     dataZoom: dataZoomConfig,
     series: series,
     animation: props.animation,
@@ -479,4 +476,3 @@ onBeforeUnmount(() => {
   @apply w-full h-full;
 }
 </style>
-

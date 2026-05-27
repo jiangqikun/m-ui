@@ -1,6 +1,5 @@
 <template>
   <div
-    ref="containerRef"
     :class="['m-responsive-page', { 'm-responsive-page--fullscreen': fullscreen }]"
     :style="containerStyle"
   >
@@ -47,7 +46,6 @@ const props = withDefaults(defineProps<ResponsivePageProps>(), {
   scaleMode: "fit",
 });
 
-const containerRef = ref<HTMLDivElement | null>(null);
 const scaleX = ref(1);
 const scaleY = ref(1);
 

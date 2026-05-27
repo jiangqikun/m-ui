@@ -6,7 +6,6 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "resolveJsonModule": true,
     "types": ["vite/client", "node"],
     "baseUrl": ".",
     "paths": {
@@ -34,6 +33,6 @@
     "auto-imports.d.ts",
     "src/shims-vue.d.ts"
   ],
-  "exclude": ["node_modules", "dist", "docs"]
+  "exclude": ["node_modules", "dist", "docs", "src/demo"]
 }
 

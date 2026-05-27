@@ -93,6 +93,7 @@ let chartInstance: echarts.ECharts | null = null;
 let mapRegistered = false;
 const defaultGeoJson = ref<any>(null);
 const isLoadingGeoJson = ref(false);
+const debugLog = (..._args: unknown[]) => {};
 
 // 计算图表实际宽度
 const computedWidth = computed(() => {
@@ -195,7 +196,7 @@ const loadDefaultGeoJson = async (): Promise<any> => {
       }
     } catch (localError) {
       // 本地文件不存在，继续尝试从API加载
-      console.log("本地GeoJSON文件不存在，尝试从阿里云API加载...");
+      debugLog("本地GeoJSON文件不存在，尝试从阿里云API加载...");
     }
 
     // 方式2：从阿里云DataV API加载
@@ -638,4 +639,3 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 </style>
-
